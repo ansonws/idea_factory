@@ -1,6 +1,8 @@
 class User < ApplicationRecord
-    has_many :ideas
-    has_many :reviews
+    has_many :ideas, dependent: :nullify
+    has_many :reviews, dependent: :nullify
+    has_many :likes, dependent: :destroy
+    has_many :liked_ideas, through: :likes, source: :idea
     has_secure_password
 
     validates(

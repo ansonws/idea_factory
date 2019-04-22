@@ -5,6 +5,30 @@
     Written by <%= @idea.user&.username || "Deleted" %> 
     <%= time_ago_in_words @idea.created_at %> ago
 </p>
+<div>
+    <% if @idea.user != current_user %>
+        <% unless @like.present? %>
+        <small>
+            <%= 
+                link_to 'Like', 
+                idea_likes_path(@idea),
+                method: :post
+            %>
+        </small>
+        <% else %>
+        <small>
+            <%= 
+                link_to 'Unlike', 
+                idea_like_path(@idea, @like),
+                method: :delete
+            %>
+        </small>
+        <% end %>
+    <% end %>
+    <small>
+        <%= pluralize(@idea.likes.count, "like") %>
+    </small>
+</div>
 <% if can? :crud, @idea %>
     <%= link_to 'Edit', edit_idea_path(@idea) %>
     |
