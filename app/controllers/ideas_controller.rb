@@ -15,8 +15,10 @@ class IdeasController < ApplicationController
         @idea = Idea.new idea_params
         @idea.user = current_user
         if @idea.save
+            flash[:success] = "#{@idea.title} created"
             redirect_to @idea
         else
+            flash[:danger] = @idea.errors.full_messages.join(', ')
             render :new 
         end
     end
