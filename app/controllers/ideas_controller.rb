@@ -30,9 +30,6 @@ class IdeasController < ApplicationController
     end
     
     def edit
-        unless can? :edit, @idea
-            redirect_to root_path, alert: 'Not authorized'
-        end
     end
     
     def update
@@ -59,6 +56,9 @@ class IdeasController < ApplicationController
     end
 
     def authorize
-        redirect_to root_path, alert: 'Not Authorized' unless can? :crud, @idea
+        unless can? :crud, @idea
+            flash[:danger] = "Not Authorized"
+            redirect_to ideas_path 
+        end
     end
 end
