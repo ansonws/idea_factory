@@ -1,0 +1,9 @@
+<%= @ideas.each do |idea| %>
+    <h2><%= link_to idea.title, idea_path(idea) %></h2>
+    <p><%= idea.description %></p>
+    <p>
+        Written by <%= idea.user&.username || "Deleted" %> 
+        <%= time_ago_in_words idea.created_at %> ago
+    </p>
+    <hr>
+<% end %>

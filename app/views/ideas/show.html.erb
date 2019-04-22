@@ -1,0 +1,46 @@
+<h2><%= @idea.title %></h2>
+<p><%= @idea.description %></p>
+<small>
+<p>
+    Written by <%= @idea.user&.username || "Deleted" %> 
+    <%= time_ago_in_words @idea.created_at %> ago
+</p>
+<% if can? :crud, @idea %>
+    <%= link_to 'Edit', edit_idea_path(@idea) %>
+    |
+    <%= 
+        link_to 'Delete', 
+        idea_path(@idea), 
+        method: :delete,
+        data: { confirm: "Are you sure you want to delete #{@idea.title}?" }
+    %>
+<% end %>
+</small>
+<hr>
+<h3>Reviews</h3>
+<% @reviews.each do |review| %>
+        <p><%= review.body %></p>
+        <small>
+            Posted by <%= @idea.user&.username || "Deleted" %> 
+            <%= time_ago_in_words @idea.created_at %> ago
+            <% if can? :crud, review %>
+                <%=
+                    link_to 'Delete',
+                    idea_review_path(@idea, review), 
+                    method: :delete, 
+                    data: {
+                        confirm: "Are you sure you want to delete review?"
+                    }
+                %>
+            <% end %>
+        </small>
+        <hr>
+<% end %>
+<h4>Write a Review</h4>
+<%= form_with model: [@idea, @review], local: true do |f| %>
+    <div>
+        <%= f.label :body %>
+        <%= f.text_area :body %>
+    </div>
+    <%= f.submit "Write Review" %>
+<% end %>
