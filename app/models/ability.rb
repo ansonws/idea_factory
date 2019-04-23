@@ -17,5 +17,9 @@ class Ability
     can :like, Idea do |idea|
       user.persisted? && idea.user != user
     end
+
+    can :membership, Idea do |idea|
+      user.persisted? 
+    end
   end
 end

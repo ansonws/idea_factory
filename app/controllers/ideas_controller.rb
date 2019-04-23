@@ -27,6 +27,7 @@ class IdeasController < ApplicationController
         @review = Review.new
         @reviews = @idea.reviews.order(created_at: :DESC)
         @like = @idea.likes.find_by(user: current_user)
+        @membership = @idea.memberships.find_by(user: current_user)
     end
     
     def edit

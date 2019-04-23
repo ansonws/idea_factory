@@ -12,18 +12,16 @@ class LikesController < ApplicationController
 
         if like.save
             flash[:success] = "Idea liked"
-        else
-            flash[:danger] = "Already liked..."
         end
-
-        redirect_to idea_path(@idea)
+        
+        redirect_to request.referer
     end
 
     def destroy
         like = Like.find params[:id]
         like.destroy
         flash[:success] = "Idea unliked"
-        redirect_to idea_path(@idea)
+        redirect_to request.referer
     end
 
     private 

@@ -1,9 +1,31 @@
-<%= @ideas.each do |idea| %>
+<% @ideas.each do |idea| %>
     <h2><%= link_to idea.title, idea_path(idea) %></h2>
     <p><%= idea.description %></p>
     <p>
         Written by <%= idea.user&.username || "Deleted" %> 
         <%= time_ago_in_words idea.created_at %> ago
     </p>
+    <% if idea.user != current_user %>
+        <% unless idea.likes.find_by(user: current_user).present? %>
+        <small>
+            <%= 
+                link_to 'Like', 
+                idea_likes_path(idea),
+                method: :post
+            %>
+        </small>
+        <% else %>
+        <small>
+            <%= 
+                link_to 'Unlike', 
+                idea_like_path(idea, idea.likes.find_by(user: current_user)),
+                method: :delete
+            %>
+        </small>
+        <% end %>
+    <% end %>
+    <small>
+        <%= pluralize(idea.likes.count, "like") %>
+    </small>
     <hr>
 <% end %>

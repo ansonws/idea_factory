@@ -3,6 +3,8 @@ class Idea < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :likers, through: :likes, source: :user
+  has_many :memberships, dependent: :destroy
+  has_many :followers, through: :memberships, source: :user
 
   validates(:title, presence: true)
 
