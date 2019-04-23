@@ -5,6 +5,23 @@
         Written by <%= idea.user&.username || "Deleted" %> 
         <%= time_ago_in_words idea.created_at %> ago
     </p>
+    <% unless idea.memberships.find_by(user: current_user).present? %>
+        <small>
+            <%= 
+                link_to 'Join', 
+                idea_memberships_path(idea),
+                method: :post
+            %>
+        </small>
+        <% else %>
+        <small>
+            <%= 
+                link_to 'Leave', 
+                idea_membership_path(idea, idea.memberships.find_by(user: current_user)),
+                method: :delete
+            %>
+        </small>
+        <% end %>
     <% if idea.user != current_user %>
         <% unless idea.likes.find_by(user: current_user).present? %>
         <small>
@@ -26,6 +43,9 @@
     <% end %>
     <small>
         <%= pluralize(idea.likes.count, "like") %>
+    </small>
+    <small>
+        <%= pluralize(idea.memberships.count, "member") %>
     </small>
     <hr>
 <% end %>

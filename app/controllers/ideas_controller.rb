@@ -35,18 +35,25 @@ class IdeasController < ApplicationController
     
     def update
         if @idea.update idea_params
+            flash[:primary] = "#{@idea.title} updated"
             redirect_to idea_path(@idea)
         else
-            render :edit
+            flash[:danger] = error_messages
+            redirect_to edit_idea_path
         end
     end
 
     def destroy
         @idea.destroy
+        flash[:danger] = "#{@idea.title} deleted"
         redirect_to root_path
     end
 
     private
+
+    def error_messages
+        @idea.errors.full_messages.join(', ')
+    end
 
     def idea_params
         params.require(:idea).permit(:title, :description)

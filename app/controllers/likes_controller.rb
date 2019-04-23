@@ -6,7 +6,6 @@ class LikesController < ApplicationController
         like = Like.new(user: current_user, idea: @idea)
         
         unless can?(:like, @idea)
-            flash[:danger] = "That's a bit narcissistic..."
             return redirect_to idea_path(@idea)
         end
 
@@ -20,7 +19,7 @@ class LikesController < ApplicationController
     def destroy
         like = Like.find params[:id]
         like.destroy
-        flash[:success] = "Idea unliked"
+        flash[:danger] = "#{@idea.title} unliked"
         redirect_to request.referer
     end
 

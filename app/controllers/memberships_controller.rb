@@ -15,7 +15,7 @@ class MembershipsController < ApplicationController
     def destroy
         membership = Membership.find params[:id]
         membership.destroy
-        flash[:success] = "Left #{@idea.title}"
+        flash[:danger] = "Left #{@idea.title}"
         redirect_to request.referer
     end
 
