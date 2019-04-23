@@ -4,7 +4,7 @@
 <small>
 <div>
     Created by 
-    <%= @idea.user&.username || "Deleted" %> on 
+    <%= link_to "#{@idea.user&.username || 'Deleted'}", user_path(@idea.user) %> on 
     <%= @idea.created_at.strftime "%-l:%M %p, %B %-d, %Y" %>
 </div>
 <% if @idea.created_at != @idea.updated_at%>
@@ -68,6 +68,7 @@
     %>
 <% end %>
 </span>
+<%= link_to 'Member List', idea_memberships_path(@idea), { class: "btn btn-sm btn-primary mt-2"} %>
 <hr>
 <h3>Reviews</h3>
 <% @reviews.each do |review| %>

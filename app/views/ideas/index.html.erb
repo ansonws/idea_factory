@@ -2,7 +2,7 @@
     <h2><%= link_to idea.title, idea_path(idea) %></h2>
     <p><%= idea.description %></p>
     <p>
-        Written by <%= idea.user&.username || "Deleted" %> 
+        Written by <%= link_to "#{idea.user&.username || 'Deleted'}", user_path(idea.user) %> 
         <%= time_ago_in_words idea.created_at %> ago
     </p>
     <% unless idea.memberships.find_by(user: current_user).present? %>

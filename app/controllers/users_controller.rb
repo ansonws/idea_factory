@@ -14,6 +14,12 @@ class UsersController < ApplicationController
         end
     end
 
+    def show
+        @user = User.find(params[:id])
+        @likes = @user.likes
+        @memberships = @user.memberships
+    end
+
     private
 
     def user_params

@@ -1,6 +1,9 @@
 class MembershipsController < ApplicationController
     before_action :authenticate_user!
     before_action :find_idea
+    
+    def index 
+    end
 
     def create
         membership = Membership.new(user: current_user, idea: @idea)
