@@ -2,8 +2,16 @@
 <p class="lead"><%= @idea.description %></p>
 <span>
 <small>
-    Written by <%= @idea.user&.username || "Deleted" %> 
-    <%= time_ago_in_words @idea.created_at %> ago
+<div>
+    Created by 
+    <%= @idea.user&.username || "Deleted" %> on 
+    <%= @idea.created_at.strftime "%-l:%M %p, %B %-d, %Y" %>
+</div>
+<% if @idea.created_at != @idea.updated_at%>
+    <div>
+        Updated <%= time_ago_in_words @idea.updated_at %> ago
+    </div>
+<% end%>
 </small>
 <div>
     <% unless @membership.present? %>
