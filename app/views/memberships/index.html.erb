@@ -1,0 +1,9 @@
+<h2>Members of <%= @idea.title %> </h2>
+<% @idea.memberships.each do |member| %>
+    <p class="lead">
+        <%= member.user.username %>, 
+        joined on <%= member.created_at.strftime "%b %-d, %Y" %>
+    </p>
+<% end %>
+
+<%= link_to 'Back', idea_path(@idea) %>

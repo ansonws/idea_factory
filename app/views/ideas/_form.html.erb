@@ -1,0 +1,12 @@
+<%= form_with(model: @idea, local: true) do |f| %>
+    <div>
+        <%= f.label :title %>
+        <%= f.text_field :title %>
+    </div>
+    <div>
+        <%= f.label :description %>
+        <%= f.text_area :description %>
+    </div>
+
+    <%= f.submit class: "btan-success"%>
+<% end %>

@@ -1,0 +1,15 @@
+@import "bootstrap";
+
+ /*
+ *= require_tree .
+ *= require_self
+ */
+
+body {
+    background: #ddd;
+}
+
+.align-right {
+    display: flex;
+    justify-content: flex-end; 
+}

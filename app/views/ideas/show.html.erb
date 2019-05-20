@@ -1,0 +1,99 @@
+<h2><%= @idea.title %></h2>
+<p class="lead"><%= @idea.description %></p>
+<span>
+<small>
+<div>
+    Created by 
+    <%= link_to "#{@idea.user&.username || 'Deleted'}", user_path(@idea.user) %> on 
+    <%= @idea.created_at.strftime "%-l:%M %p, %B %-d, %Y" %>
+</div>
+<% if @idea.created_at != @idea.updated_at%>
+    <div>
+        Updated <%= time_ago_in_words @idea.updated_at %> ago
+    </div>
+<% end%>
+</small>
+<div>
+    <% unless @membership.present? %>
+        <span>
+            <%= 
+                link_to 'Join', 
+                idea_memberships_path(@idea),
+                method: :post
+            %>
+        </span>
+        <% else %>
+        <span>
+            <%= 
+                link_to 'Leave', 
+                idea_membership_path(@idea, @membership),
+                method: :delete
+            %>
+        </span>
+        <% end %>
+    <% if @idea.user != current_user %>
+        <% unless @like.present? %>
+        <span>
+            <%= 
+                link_to 'Like', 
+                idea_likes_path(@idea),
+                method: :post
+            %>
+        </span>
+        <% else %>
+        <span>
+            <%= 
+                link_to 'Unlike', 
+                idea_like_path(@idea, @like),
+                method: :delete
+            %>
+        </span>
+        <% end %>
+    <% end %>
+    <span>
+        <%= pluralize(@idea.memberships.count, "member") %>
+    </span>
+    <span>
+        <%= pluralize(@idea.likes.count, "like") %>
+    </span>
+</div>
+<% if can? :crud, @idea %>
+    <%= link_to 'Edit', edit_idea_path(@idea) %>
+    |
+    <%= 
+        link_to 'Delete', 
+        idea_path(@idea), 
+        method: :delete,
+        data: { confirm: "Are you sure you want to delete #{@idea.title}?" }
+    %>
+<% end %>
+</span>
+<%= link_to 'Member List', idea_memberships_path(@idea), { class: "btn btn-sm btn-primary mt-2"} %>
+<hr>
+<h3>Reviews</h3>
+<% @reviews.each do |review| %>
+        <p><%= review.body %></p>
+        <span>
+            Posted by <%= @idea.user&.username || "Deleted" %> 
+            <%= time_ago_in_words @idea.created_at %> ago
+            <% if can? :crud, review %>
+                <%=
+                    link_to 'Delete',
+                    idea_review_path(@idea, review), 
+                    method: :delete, 
+                    data: {
+                        confirm: "Are you sure you want to delete review?"
+                    }
+                %>
+            <% end %>
+        </span>
+        <hr>
+<% end %>
+<h4>Write a Review</h4>
+<%= form_with model: [@idea, @review], local: true do |f| %>
+    <div>
+        <%= f.label :body %>
+        <%= f.text_area :body %>
+    </div>
+    <%= f.submit "Write Review" %>
+<% end %>

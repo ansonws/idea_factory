@@ -1,0 +1,16 @@
+<h2><%= @user.username %></h2>
+<h4 class="mt-4">Liked Ideas</h4>
+<% @likes.each do |like| %>
+    <p class="lead">
+        <%= link_to "#{like.idea.title}", idea_path(like.idea) %> 
+    </p>
+<% end %>
+<hr>
+<h4>Ideas Joined</h4>
+<% @memberships.each do |membership| %>
+    <p class="lead">
+        <%= link_to "#{membership.idea.title}", idea_path(membership.idea) %> 
+    </p>
+<% end %>
+
+<%= link_to 'Home', ideas_path %>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>IdeaFactory</title>
+    <title>Idea Factory</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -10,6 +10,35 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="container">
+      <nav class="navbar-brand">
+      <span>
+        <%= link_to 'Idea Factory', ideas_path, { class: "btn btn-warning mx-1" } %>
+        <%= link_to 'New Idea', new_idea_path, { class: "btn btn-success mx-1" } %>
+      <span>
+        <span>
+          <% if user_signed_in? %>
+            <span>Logged in as: <%= current_user.username %></span>
+            <%= 
+              link_to 'Sign Out', 
+              session_path, 
+              method: :delete,
+              class: "btn btn-danger", 
+              data: { confirm: "Log out?"}
+            %>
+          <% else %>
+            <%= link_to 'Login', login_path, { class: "btn btn-primary mx-1" } %>
+            <%= link_to 'Sign Up', signup_path, { class: "btn btn-success mx-1" } %>
+          <% end %>
+        </span>
+      </nav>
+      <hr>
+        <% flash.each do |type, message| %>
+              <div class="alert-<%= type %> mb-2">
+                <%= message %>
+              </div>
+        <% end %>
+      <%= yield %>
+    </div>
   </body>
 </html>
